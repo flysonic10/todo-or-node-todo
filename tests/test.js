@@ -12,3 +12,15 @@ describe('Requests to root', function () {
       });
   });
 });
+
+describe('Requests to lists', function () {
+  it('Should return a 200 status', function (done) {
+    request(app)
+      .get('/')
+      .expect(200)
+      .end(function (error) {
+        if(error) throw error;
+        done();
+      });
+  });
+});
