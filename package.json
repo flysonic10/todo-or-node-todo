@@ -17,7 +17,8 @@
   },
   "homepage": "https://github.com/flysonic10/todo-or-node-todo",
   "dependencies": {
-    "express": "^4.12.3"
+    "express": "^4.12.3",
+    "node-uuid": "^1.4.3"
   },
   "devDependencies": {
     "mocha": "^2.2.4",

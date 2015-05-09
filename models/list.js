@@ -1,4 +1,5 @@
 var fs = require('fs');
+var uuid = require('node-uuid');
 
 /**
  * A list containing todo items
@@ -13,11 +14,14 @@ var List = function(id, name, todos) {
 
 List.prototype = (function () {
   return {
-    create: function (name, todos) {
-      this.id = this.generateID();
+    create: function (name, todos, callback) {
+      this.id = uuid.v4();
       this.name = name;
       this.todos = todos || [];
-      this.save();
+      this.save(function (err, data) {
+        if (err) { callback(err); }
+        callback(null, data);
+      });
     },
 
     read: function (id, callback) {
@@ -28,14 +32,12 @@ List.prototype = (function () {
       });
     },
 
-    save: function () {
+    save: function (callback) {
+      var listID = this.id;
       fs.writeFile(__dirname+'/../data/lists/' + this.id + '.json', JSON.stringify(this), function (err) {
-        if (err) { throw err; }
+        if (err) { callback(err); }
+        callback(null, listID);
       });
-    },
-
-    generateID: function () {
-        return '1';
     }
   };
 })();
