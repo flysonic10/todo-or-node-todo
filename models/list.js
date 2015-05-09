@@ -19,7 +19,7 @@ List.prototype = (function () {
       this.name = name;
       this.todos = todos || [];
       this.save(function (err, data) {
-        if (err) { callback(err); }
+        if (err) { callback(err); return; }
         callback(null, data);
       });
     },
@@ -27,7 +27,7 @@ List.prototype = (function () {
     read: function (id, callback) {
       listID = id || this.id;
       fs.readFile(__dirname+'/../data/lists/' + listID + '.json', function (err, data) {
-        if(err) throw err;
+        if (err) { callback(err); return; }
         callback(null, JSON.parse(data));
       });
     },
@@ -35,7 +35,7 @@ List.prototype = (function () {
     save: function (callback) {
       var listID = this.id;
       fs.writeFile(__dirname+'/../data/lists/' + this.id + '.json', JSON.stringify(this), function (err) {
-        if (err) { callback(err); }
+        if (err) { callback(err); return; }
         callback(null, listID);
       });
     }
