@@ -8,9 +8,6 @@ var urlencode = bodyParser.urlencoded({ extended: false });
 var async = require('async');
 
 router.route('/')
-  .all(function(req, res, next) {
-    next();
-  })
   .get(function(req, res, next) {
     List.read(req.params.id, function (err, data) {
       if(err){ res.sendStatus(404); return; }
@@ -28,9 +25,7 @@ router.route('/')
       });
     });
   })
-  .put(function(req, res, next) {
-    next(new Error('not implemented'));
-  })
+
   .post(urlencode, function(req, res, next) {
     var newPost = req.body;
     var listID = req.body.listID;
@@ -38,24 +33,13 @@ router.route('/')
       if(err){ res.sendStatus(404); return; }
       res.status(201).json({id: data});
     });
-  })
-  .delete(function(req, res, next) {
-    next(new Error('not implemented'));
   });
 
 router.route('/:id')
-  .all(function(req, res, next) {
-    next();
-  })
-  .get(function(req, res, next) {
-    next(new Error('not implemented'));
-  })
   .put(function(req, res, next) {
     next(new Error('not implemented'));
   })
-  .post(urlencode, function(req, res, next) {
-    next(new Error('not implemented'));
-  })
+
   .delete(function(req, res, next) {
     Todo.delete(req.params.id, function (err, data) {
       if(err){ res.sendStatus(404); return; }
