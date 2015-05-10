@@ -42,7 +42,22 @@ describe('todos', function () {
   });
 
   describe('POST /lists/:id/todos', function () {
-    it('Should return id');
+    before(function (done) {
+      request(app)
+        .post('/lists')
+        .send('name=A New List')
+        .expect(/id/i)
+        .end(function (err, res) {
+          list1 = res.id;
+          done();
+        });
+    });
+    it('Should return id', function (done) {
+      request(app)
+        .post('/lists/'+list1+'/todos')
+        .send('name=New Todo&listID='+list1)
+        .expect(/id/i, done);
+    });
   });
 
   describe('PUT /lists/:id/todos/:id', function () {

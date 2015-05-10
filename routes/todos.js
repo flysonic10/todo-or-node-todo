@@ -19,7 +19,6 @@ router.route('/')
       async.each(data.todos, function (todo, callback) {
         Todo.read(todo, function (err, data) {
           if(err){ return next(err); }
-          console.log(data);
           listTodos.push(data);
           callback();
         });
@@ -33,7 +32,12 @@ router.route('/')
     next(new Error('not implemented'));
   })
   .post(urlencode, function(req, res, next) {
-    next(new Error('not implemented'));
+    var newPost = req.body;
+    var listID = req.params.id;
+    List.create(newPost.name, listID, function (err, data) {
+      if(err){ res.sendStatus(404); return; }
+      res.status(201).json({id: data});
+    });
   })
   .delete(function(req, res, next) {
     next(new Error('not implemented'));
