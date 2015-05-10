@@ -32,6 +32,15 @@ List.prototype = (function () {
       });
     },
 
+    update: function (args, callback) {
+      this.name = args.name || this.name;
+      this.todos = args.todos || this.todos;
+      this.save(function (err, data) {
+        if (err) { callback(err); return; }
+        callback(null, data);
+      });
+    },
+
     save: function (callback) {
       var listID = this.id;
       fs.writeFile(__dirname+'/../data/lists/' + this.id + '.json', JSON.stringify(this), function (err) {
