@@ -13,7 +13,20 @@ describe('GET /', function () {
   });
 });
 
+
 describe('lists', function () {
+  var list1;
+
+  before(function (done) {
+    request(app)
+      .post('/lists')
+      .send('name=A New List')
+      .end(function (err, res) {
+        list1 = res.body.id;
+        done();
+      });
+  });
+
   describe('GET /lists', function () {
     it('Should return a 200 status', function (done) {
       request(app)
@@ -30,13 +43,31 @@ describe('lists', function () {
       request(app)
         .post('/lists')
         .send('name=A New List')
-        .expect(/id/i, done);
+        .expect(/id/i)
+        .end(function (err, res) {
+          request(app)
+            .delete('/lists/'+res.body.id)
+            .end(function (err, res) {
+              done();
+            });
+        });
+    });
+  });
+  describe('DELETE /lists/:id', function () {
+    it('Should return a 204 status', function (done) {
+      request(app)
+      .delete('/lists/'+list1)
+      .expect(204)
+      .end(function (err, res) {
+        done();
+      });
     });
   });
 });
 
 
 describe('todos', function () {
+
   var list1;
   var todo1;
 
@@ -68,9 +99,15 @@ describe('todos', function () {
       });
   });
 
+  after(function (done) {
+    request(app)
+      .delete('/lists/'+list1)
+      .end(function (err, res) {
+        done();
+      });
+  });
+
   describe('GET /lists/:id/todos', function () {
-
-
     it('Should return todos', function (done) {
       request(app)
         .get('/lists/'+list1+'/todos')
@@ -90,7 +127,14 @@ describe('todos', function () {
       request(app)
         .post('/lists/'+list1+'/todos')
         .send('name=New Todo&listID='+list1)
-        .expect(/id/i, done);
+        .expect(/id/i)
+        .end(function (err, res) {
+          request(app)
+            .delete('/lists/'+list1+'/todos/'+res.body.id)
+            .end(function (err, res) {
+              done();
+            });
+        });
     });
   });
 
