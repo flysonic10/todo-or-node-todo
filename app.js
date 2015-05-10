@@ -9,7 +9,7 @@ var lists = require('./routes/lists');
 app.use('/lists', lists);
 
 var todos = require('./routes/todos');
-app.use('/lists/:id/todos', todos);
+app.use('/lists/:list_id/todos', todos);
 
 app.get('*', function(req, res){
   res.sendStatus(404);

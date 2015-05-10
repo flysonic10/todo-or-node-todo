@@ -38,6 +38,7 @@ describe('lists', function () {
 
 describe('todos', function () {
   var list1;
+  var todo1;
 
   before(function (done) {
     request(app)
@@ -54,6 +55,7 @@ describe('todos', function () {
       .post('/lists/'+list1+'/todos')
       .send('name=New Todo&listID='+list1)
       .end(function (err, res) {
+        todo1 = res.body.id;
         done();
       });
   });
@@ -89,6 +91,14 @@ describe('todos', function () {
   });
 
   describe('DELETE /lists/:id/todos/:id', function () {
-    it('Should return a 200 status');
+    it('Should return a 204 status', function (done) {
+      request(app)
+      .delete('/lists/'+list1+'/todos/'+todo1)
+      .expect(204)
+      .end(function (err, res) {
+        done();
+      });
+    });
+
   });
 });

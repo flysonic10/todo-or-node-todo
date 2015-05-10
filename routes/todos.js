@@ -43,13 +43,12 @@ router.route('/')
     next(new Error('not implemented'));
   });
 
-router.route('/:id')
+router.route('/:todo_id')
   .all(function(req, res, next) {
     next();
   })
   .get(function(req, res, next) {
-    console.log(req);
-    // next(new Error('not implemented'));
+    next(new Error('not implemented'));
   })
   .put(function(req, res, next) {
     next(new Error('not implemented'));
@@ -58,7 +57,10 @@ router.route('/:id')
     next(new Error('not implemented'));
   })
   .delete(function(req, res, next) {
-    next(new Error('not implemented'));
+    Todo.delete(req.params.id, function (err, data) {
+      if(err){ res.sendStatus(404); return; }
+      res.sendStatus(204);
+    });
   });
 
 module.exports = router;

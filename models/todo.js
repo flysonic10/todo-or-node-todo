@@ -2,6 +2,8 @@ var fs = require('fs');
 var uuid = require('node-uuid');
 var List = require('./list');
 
+var async = require('async');
+
 /**
  * A todo
  * @param {String} name  The name of the todo
@@ -28,7 +30,38 @@ Todo.prototype = (function () {
       todoID = id || this.id;
       fs.readFile(__dirname+'/../data/todos/' + todoID + '.json', function (err, data) {
         if (err) { callback(err); return; }
-        callback(null, JSON.parse(data));
+        var todo = JSON.parse(data);
+        todo = new Todo(todo.id, todo.name, todo.listID);
+        callback(null, todo);
+      });
+    },
+
+    delete: function (id, callback) {
+      todoID = id || this.id;
+      this.read(todoID, function (err, data) {
+        if (err) { callback(err); return; }
+
+        fs.unlinkSync(__dirname+'/../data/todos/'+todoID+'.json');
+
+        var parentList;
+        async.series([
+          function(callback){
+            List.read(this.listID, function (err, list) {
+              if (err) { callback(err); return; }
+              list.todos = list.todos.filter(function (todo) {
+                if(todo != this.todoID){ return todo; }
+              });
+              parentList = list;
+              callback(null, list);
+            });},
+          function(callback){
+            List.update(parentList, function (err, data) {
+              if (err) { callback(err); return; }
+              callback(null, data);
+            });}],
+          function (err, data) {
+            callback(null, data);
+          });
       });
     },
 
@@ -42,7 +75,7 @@ Todo.prototype = (function () {
           list.todos.push(todoID);
           list.update({todos: list.todos}, function (err, data) {
             if (err) { callback(err); return; }
-            callback(null, todoID);
+            callback(null, data);
           });
         });
       });
