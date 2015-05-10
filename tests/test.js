@@ -1,7 +1,7 @@
 var request = require('supertest');
 var app = require('../app');
 
-describe('Requests to root', function () {
+describe('GET /', function () {
   it('Should return a 200 status', function (done) {
     request(app)
       .get('/')
@@ -13,7 +13,7 @@ describe('Requests to root', function () {
   });
 });
 
-describe('Requests to lists', function () {
+describe('GET /lists', function () {
   it('Should return a 200 status', function (done) {
     request(app)
       .get('/')
@@ -22,5 +22,15 @@ describe('Requests to lists', function () {
         if(error) throw error;
         done();
       });
+  });
+
+  describe('POST /lists', function () {
+    it('Should return id', function (done) {
+      request(app)
+        .post('/lists')
+        .send('name=A New List')
+        .expect(/id/i, done);
+    });
+
   });
 });
