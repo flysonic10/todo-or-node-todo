@@ -75,7 +75,7 @@ Todo.prototype = (function () {
           list.todos.push(todoID);
           list.update({todos: list.todos}, function (err, data) {
             if (err) { callback(err); return; }
-            callback(null, data);
+            callback(null, todoID);
           });
         });
       });
