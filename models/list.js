@@ -7,9 +7,9 @@ var uuid = require('node-uuid');
  * @param {Array} todos  An array of todo names
  */
 var List = function(id, name, todos) {
-  this.id = '';
-  this.name = name;
-  this.todos = [];
+  this.id = id || '';
+  this.name = name || '';
+  this.todos = todos || [];
 };
 
 List.prototype = (function () {
@@ -28,7 +28,12 @@ List.prototype = (function () {
       listID = id || this.id;
       fs.readFile(__dirname+'/../data/lists/' + listID + '.json', function (err, data) {
         if (err) { callback(err); return; }
-        callback(null, JSON.parse(data));
+        var list = JSON.parse(data);
+        console.log(list);
+        list = new List(list.id, list.name, list.todos);
+        console.log(list instanceof List);
+        console.log(list);
+        callback(null, list);
       });
     },
 
