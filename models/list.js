@@ -43,6 +43,15 @@ List.prototype = (function () {
       });
     },
 
+    delete: function (id, callback) {
+      listID = id || this.id;
+      fs.unlink(__dirname+'/../data/lists/'+listID+'.json', function (err, data) {
+        if (err) { callback(err); return; }
+        callback(null, data);
+      });
+
+    },
+
     save: function (callback) {
       var listID = this.id;
       fs.writeFile(__dirname+'/../data/lists/' + this.id + '.json', JSON.stringify(this), function (err) {

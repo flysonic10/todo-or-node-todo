@@ -43,7 +43,10 @@ router.route('/:id')
     next(new Error('not implemented'));
   })
   .delete(function(req, res, next) {
-    next(new Error('not implemented'));
+    List.delete(req.params.id, function (err, data) {
+      if(err){ res.sendStatus(404); return; }
+      res.sendStatus(204);
+    });
   });
 
 module.exports = router;
