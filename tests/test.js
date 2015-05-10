@@ -60,6 +60,14 @@ describe('todos', function () {
       });
   });
 
+  after(function (done) {
+    request(app)
+      .delete('/lists/'+list1+'/todos'+todo1)
+      .end(function (err, res) {
+        done();
+      });
+  });
+
   describe('GET /lists/:id/todos', function () {
 
 
