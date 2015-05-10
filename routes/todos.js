@@ -43,7 +43,7 @@ router.route('/')
     next(new Error('not implemented'));
   });
 
-router.route('/:todo_id')
+router.route('/:id')
   .all(function(req, res, next) {
     next();
   })
