@@ -29,10 +29,7 @@ List.prototype = (function () {
       fs.readFile(__dirname+'/../data/lists/' + listID + '.json', function (err, data) {
         if (err) { callback(err); return; }
         var list = JSON.parse(data);
-        console.log(list);
         list = new List(list.id, list.name, list.todos);
-        console.log(list instanceof List);
-        console.log(list);
         callback(null, list);
       });
     },
