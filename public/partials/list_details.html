@@ -1,11 +1,16 @@
 <div ng-controller="ListDetailsCtrl">
   <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12">
-      <h3>List Details</h3>
+      <h3>{{list.name}}</h3>
       <div ng-controller="TodosCtrl">
         <ul class="list-unstyled">
           <li ng-repeat="todo in todos">
-            {{todo.name}}
+            <div class="checkbox">
+              <label ng-class="{strike: todo.checked}">
+                <input type="checkbox" ng-model="todo.checked" ng-click="markStatus(todo.id, todo.checked)">
+                {{todo.name}}
+              </label>
+            </div>
           </li>
         </ul>
       </div>
