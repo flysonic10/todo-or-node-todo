@@ -1,8 +1,21 @@
 <div ng-controller="ListsCtrl">
-  <h2>Lists</h2>
-  <ul>
-    <li ng-repeat="list in lists">
-      <a href="/lists/{{list.id}}">{{list.name}}</a>
-    </li>
-  </ul>
+  <div class="row">
+    <div class="col-lg-6 col-md-6 col-sm-6">
+      <h3>Create a New List</h3>
+      <form>
+        <div class="form-group">
+          <input class="form-control" placeholder="List Title...">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-6">
+      <h3>Todo Lists</h3>
+      <ul class="list-unstyled list-list">
+        <li ng-repeat="list in lists">
+          <a class="btn btn-default btn-block" href="/lists/{{list.id}}">{{list.name}}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
 </div>

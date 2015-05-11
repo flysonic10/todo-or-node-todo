@@ -1,10 +1,14 @@
 <div ng-controller="ListDetailsCtrl">
-  <h2>List Details</h2>
-  <div ng-controller="TodosCtrl">
-    <ul>
-      <li ng-repeat="todo in todos">
-        {{todo.name}}
-      </li>
-    </ul>
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+      <h3>List Details</h3>
+      <div ng-controller="TodosCtrl">
+        <ul class="list-unstyled">
+          <li ng-repeat="todo in todos">
+            {{todo.name}}
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
 </div>
