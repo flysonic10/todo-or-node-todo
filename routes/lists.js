@@ -6,6 +6,13 @@ var bodyParser = require('body-parser');
 var urlencode = bodyParser.urlencoded({ extended: false });
 
 router.route('/')
+  .get(function (req, res, next) {
+    List.all(function (err, data) {
+      if(err){ res.sendStatus(404); return; }
+      res.status(200).json(data);
+    });
+  })
+
   .post(urlencode, function(req, res, next) {
     var newList = req.body;
     List.create(newList.name, newList.todos, function (err, data) {

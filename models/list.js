@@ -1,5 +1,6 @@
 var fs = require('fs');
 var uuid = require('node-uuid');
+var async = require('async');
 
 /**
  * A list containing todo items
@@ -50,6 +51,24 @@ List.prototype = (function () {
         callback(null, data);
       });
 
+    },
+
+    all: function (callback) {
+      fs.readdir(__dirname+'/../data/lists/', function (err, files) {
+        if(err) { callback(err); }
+        var allLists = [];
+        async.each(files, function (file, done) {
+          List.prototype.read(file.split('.')[0], function (err, data) {
+            allLists.push(data);
+            done();
+          });
+        }, function (err) {
+          if(err) { callback(err); }
+          callback(null,
+            allLists.filter(function (i) { if(i !== undefined){ return i; }})
+          );
+        });
+      });
     },
 
     save: function (callback) {
