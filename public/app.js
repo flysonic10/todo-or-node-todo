@@ -15,7 +15,10 @@ angular.module('todoOrNodeTodo', [
       templateUrl: '/partials/lists.html',
       controller: 'ListsCtrl'
     })
-
+    .when('/lists/:id', {
+      templateUrl: '/partials/list_details.html',
+      controller: 'ListDetailsCtrl'
+    })
     .otherwise({redirectTo: '/lists'});
 
 }]);
