@@ -8,9 +8,10 @@ var async = require('async');
  * A todo
  * @param {String} name  The name of the todo
  */
-var Todo = function(id, name, listID) {
+var Todo = function(id, name, checked, listID) {
   this.id = id || '';
   this.name = name || '';
+  this.checked = checked || false;
   this.listID = listID || '';
 };
 
@@ -31,8 +32,17 @@ Todo.prototype = (function () {
       fs.readFile(__dirname+'/../data/todos/' + todoID + '.json', function (err, data) {
         if (err) { callback(err); return; }
         var todo = JSON.parse(data);
-        todo = new Todo(todo.id, todo.name, todo.listID);
+        todo = new Todo(todo.id, todo.name, todo.checked == 'true', todo.listID);
         callback(null, todo);
+      });
+    },
+
+    update: function (args, callback) {
+      this.name = args.name || this.name;
+      this.checked = args.checked || this.checked;
+      this.save(function (err, data) {
+        if (err) { callback(err); return; }
+        callback(null, data);
       });
     },
 
@@ -72,7 +82,10 @@ Todo.prototype = (function () {
         if (err) { callback(err); return; }
         List.read(listID, function(err, list){
           if (err) { callback(err); return; }
-          list.todos.push(todoID);
+          // Add todo to the list if it doesn't already exists
+          if(!list.todos.some(function (el) { return el === todoID; })){
+            list.todos.push(todoID);
+          }
           list.update({todos: list.todos}, function (err, data) {
             if (err) { callback(err); return; }
             callback(null, todoID);

@@ -17,6 +17,7 @@ router.route('/')
         Todo.read(todo, function (err, data) {
           if(err){ return next(err); }
           listTodos.push(data);
+          console.log(data);
           callback();
         });
       }, function(err){
@@ -36,8 +37,13 @@ router.route('/')
   });
 
 router.route('/:id')
-  .put(function(req, res, next) {
-    next(new Error('not implemented'));
+  .put(urlencode, function(req, res, next) {
+    Todo.read(req.params.id, function (err, todo) {
+      todo.update(req.body, function (err, data) {
+        if(err){ res.sendStatus(404); return; }
+        res.status(200).json({id: data});
+      });
+    });
   })
 
   .delete(function(req, res, next) {
