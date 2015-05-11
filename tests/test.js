@@ -19,7 +19,7 @@ describe('lists', function () {
 
   before(function (done) {
     request(app)
-      .post('/lists')
+      .post('/api/lists')
       .send('name=A New List')
       .end(function (err, res) {
         list1 = res.body.id;
@@ -27,7 +27,7 @@ describe('lists', function () {
       });
   });
 
-  describe('GET /lists', function () {
+  describe('GET /api/lists', function () {
     it('Should return a 200 status', function (done) {
       request(app)
         .get('/')
@@ -38,25 +38,25 @@ describe('lists', function () {
         });
     });
   });
-  describe('POST /lists', function () {
+  describe('POST /api/lists', function () {
     it('Should return id', function (done) {
       request(app)
-        .post('/lists')
+        .post('/api/lists')
         .send('name=A New List')
         .expect(/id/i)
         .end(function (err, res) {
           request(app)
-            .delete('/lists/'+res.body.id)
+            .delete('/api/lists/'+res.body.id)
             .end(function (err, res) {
               done();
             });
         });
     });
   });
-  describe('DELETE /lists/:id', function () {
+  describe('DELETE /api/lists/:id', function () {
     it('Should return a 204 status', function (done) {
       request(app)
-      .delete('/lists/'+list1)
+      .delete('/api/lists/'+list1)
       .expect(204)
       .end(function (err, res) {
         done();
@@ -73,7 +73,7 @@ describe('todos', function () {
 
   before(function (done) {
     request(app)
-      .post('/lists')
+      .post('/api/lists')
       .send('name=A New List')
       .end(function (err, res) {
         list1 = res.body.id;
@@ -83,7 +83,7 @@ describe('todos', function () {
 
   before(function (done) {
     request(app)
-      .post('/lists/'+list1+'/todos')
+      .post('/api/lists/'+list1+'/todos')
       .send('name=New Todo&listID='+list1)
       .end(function (err, res) {
         todo1 = res.body.id;
@@ -93,7 +93,7 @@ describe('todos', function () {
 
   after(function (done) {
     request(app)
-      .delete('/lists/'+list1+'/todos'+todo1)
+      .delete('/api/lists/'+list1+'/todos'+todo1)
       .end(function (err, res) {
         done();
       });
@@ -101,16 +101,16 @@ describe('todos', function () {
 
   after(function (done) {
     request(app)
-      .delete('/lists/'+list1)
+      .delete('/api/lists/'+list1)
       .end(function (err, res) {
         done();
       });
   });
 
-  describe('GET /lists/:id/todos', function () {
+  describe('GET /api/lists/:id/todos', function () {
     it('Should return todos', function (done) {
       request(app)
-        .get('/lists/'+list1+'/todos')
+        .get('/api/lists/'+list1+'/todos')
         .expect(200)
         .expect(/todos/i)
         .expect(/name/i)
@@ -122,15 +122,15 @@ describe('todos', function () {
     });
   });
 
-  describe('POST /lists/:id/todos', function () {
+  describe('POST /api/lists/:id/todos', function () {
     it('Should return id', function (done) {
       request(app)
-        .post('/lists/'+list1+'/todos')
+        .post('/api/lists/'+list1+'/todos')
         .send('name=New Todo&listID='+list1)
         .expect(/id/i)
         .end(function (err, res) {
           request(app)
-            .delete('/lists/'+list1+'/todos/'+res.body.id)
+            .delete('/api/lists/'+list1+'/todos/'+res.body.id)
             .end(function (err, res) {
               done();
             });
@@ -138,14 +138,14 @@ describe('todos', function () {
     });
   });
 
-  describe('PUT /lists/:id/todos/:id', function () {
+  describe('PUT /api/lists/:id/todos/:id', function () {
     it('Should return a 200 status');
   });
 
-  describe('DELETE /lists/:id/todos/:id', function () {
+  describe('DELETE /api/lists/:id/todos/:id', function () {
     it('Should return a 204 status', function (done) {
       request(app)
-      .delete('/lists/'+list1+'/todos/'+todo1)
+      .delete('/api/lists/'+list1+'/todos/'+todo1)
       .expect(204)
       .end(function (err, res) {
         done();
