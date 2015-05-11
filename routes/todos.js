@@ -9,7 +9,7 @@ var async = require('async');
 
 router.route('/')
   .get(function(req, res, next) {
-    List.read(req.params.id, function (err, data) {
+    List.read(req.params.list_id, function (err, data) {
       if(err){ res.sendStatus(404); return; }
 
       var listTodos = [];
