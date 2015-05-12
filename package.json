@@ -4,6 +4,7 @@
   "description": "A simple todo app on Express and Angular",
   "main": "server.js",
   "scripts": {
+    "start": "./bin/www",
     "test": "mocha -w tests/"
   },
   "repository": {
