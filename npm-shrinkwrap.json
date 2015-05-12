@@ -2,6 +2,10 @@
   "name": "todo-or-node-todo",
   "version": "0.0.0",
   "dependencies": {
+    "async": {
+      "version": "0.9.0",
+      "from": "async@"
+    },
     "body-parser": {
       "version": "1.12.3",
       "from": "body-parser@",
@@ -71,6 +75,11 @@
           }
         }
       }
+    },
+    "dotenv": {
+      "version": "1.1.0",
+      "from": "dotenv@",
+      "resolved": "https://registry.npmjs.org/dotenv/-/dotenv-1.1.0.tgz"
     },
     "express": {
       "version": "4.12.3",
