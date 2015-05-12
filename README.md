@@ -17,3 +17,8 @@ A simple todo application in Express and Angular.
 
 1. Do todo as you do  
 visit http://localhost:3001/
+
+OPTIONAL:
+
+1. Run tests
+`npm test`
