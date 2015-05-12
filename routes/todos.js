@@ -17,7 +17,6 @@ router.route('/')
         Todo.read(todo, function (err, data) {
           if(err){ return next(err); }
           listTodos.push(data);
-          console.log(data);
           callback();
         });
       }, function(err){
