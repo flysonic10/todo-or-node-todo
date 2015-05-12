@@ -139,7 +139,15 @@ describe('todos', function () {
   });
 
   describe('PUT /api/lists/:id/todos/:id', function () {
-    it('Should return a 200 status');
+    it('Should return a 200 status', function (done) {
+      request(app)
+        .put('/api/lists/'+list1+'/todos/'+todo1)
+        .send('name=New Todo&checked=true&listID='+list1)
+        .expect(200)
+        .end(function (err, res) {
+          done();
+        })
+    });
   });
 
   describe('DELETE /api/lists/:id/todos/:id', function () {
